@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dataModel.EmployeeDong;
+import dataModel.Reservation;
 import util.Info;
 import util.UtilDBDong;
 
@@ -25,7 +25,7 @@ public class SimpleSearchHB extends HttpServlet implements Info {
 
       response.setContentType("text/html");
       PrintWriter out = response.getWriter();
-      String title = "Database Result";
+      String title = "Reservations List";
       String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"; //
       out.println(docType + //
             "<html>\n" + //
@@ -34,30 +34,49 @@ public class SimpleSearchHB extends HttpServlet implements Info {
             "<h1 align=\"center\">" + title + "</h1>\n");
       out.println("<ul>");
 
-      List<EmployeeDong> listEmployees = null;
+      List<Reservation> listReservations = null;
       if (keyword != null && !keyword.isEmpty()) {
-         listEmployees = UtilDBDong.listEmployees(keyword);
+    	  listReservations = UtilDBDong.listReservations(keyword);
       } else {
-         listEmployees = UtilDBDong.listEmployees();
+    	  listReservations = UtilDBDong.listReservations();
       }
-      display(listEmployees, out);
+      
+      if (listReservations.isEmpty()) {
+    	  display(out);
+      }else {
+    	  display(listReservations, out);  
+      }
+      
       out.println("</ul>");
       out.println("<a href=/" + projectName + "/" + searchWebName + ">Search Data</a> <br>");
       out.println("</body></html>");
    }
 
-   void display(List<EmployeeDong> listEmployees, PrintWriter out) {
-      for (EmployeeDong employee : listEmployees) {
-         System.out.println("[DBG] " + employee.getId() + ", " //
-               + employee.getName() + ", " //
-               + employee.getAge() + ", "
-               + employee.getPhone());
+   void display(List<Reservation> listReservations, PrintWriter out) {
+      for (Reservation reservation : listReservations) {
+         System.out.println("[DBG] " + reservation.getId() + ", " //
+        		 + reservation.getFirstName() + ", " //
+	             + reservation.getLastName() + ", "
+	             + reservation.getPhone() + ", "
+	             + reservation.getDate() + ", "
+	             + reservation.getTimeOfArrival() + ", "
+	             + reservation.getNumberOfPeople());
 
-         out.println("<li>" + employee.getId() + ", " //
-               + employee.getName() + ", " //
-               + employee.getAge() + ", "
-               + employee.getPhone() + "</li>");
+         out.println("<li>" + reservation.getId() + ", " //
+        		 + reservation.getFirstName() + ", " //
+	             + reservation.getLastName() + ", "
+	             + reservation.getPhone() + ", "
+	             + reservation.getDate() + ", "
+	             + reservation.getTimeOfArrival() + ", "
+	             + reservation.getNumberOfPeople() + "</li>");
       }
+   }
+   
+   void display(PrintWriter out) {
+	   
+	   System.out.println("NOT FOUND (Please make sure to spell the person's first name correctly)");
+	   out.println("<h2>" + "NOT FOUND" + "</h2>");
+	   out.println("<li>" + "(Please make sure to spell the person's first name correctly)" + "</li>");
    }
 
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -32,21 +32,26 @@ footer {
 
 <body>
 <header>
-<h1> Search Data (Hibernate) </h1>
+<h1> Insert Data </h1>
 </header>
 
 <nav>
-<a href="/webproject/simpleInsertHB.html">Insert Data</a> <br>
+<a href="/webproject/SimpleSearchHB.html">Search Data</a> <br>
 </nav>
 
 <section>
 	<h1>User Input</h1>
 	
-	<form action="SimpleSearchHB" method="POST">
+	<form action="SimpleInsertHB" method="POST">
 	
-		User Name: <input type="text" name="keyword"> <br />
+		First Name: <input type="text" name="firstName"> <br />
+		Last Name: <input type="text" name="lastName"> <br />
+		Phone: <input type="text" name="phone"> <br />
+		Date: <input type="text" name="date"> <br />
+		Time Of Arrival: <input type="text" name="timeOfArrival"> <br />
+		Number Of People Attending: <input type="text" name="numberOfPeople"> <br />
 		
-		<input type="submit" value="Search" />
+		<input type="submit" value="Submit" />
 	</form>
 
 </section>

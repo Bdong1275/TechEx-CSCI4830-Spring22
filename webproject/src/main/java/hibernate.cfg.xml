@@ -7,13 +7,13 @@
 	    <!-- The dialect specifies the type of database used in hibernate so that hibernate generate appropriate type of SQL statements. -->
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://ec2-52-87-161-18.compute-1.amazonaws.com:3306/MyDBDong0223?enabledTLSProtocols=TLSv1.2</property>
+		<property name="hibernate.connection.url">jdbc:mysql://ec2-52-87-161-18.compute-1.amazonaws.com:3306/MyDBTechEx?enabledTLSProtocols=TLSv1.2</property>
 		<property name="hibernate.connection.username">bdong_remote</property>
 		<property name="hibernate.connection.password">password</property>
 		<!-- you can create and update the table if it is not in DB. If create, it create new table everytime-->
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<!-- True you will see sql in console -->
 		<property name="show_sql">true</property>
-		<mapping class="dataModel.EmployeeDong" />
+		<mapping class="dataModel.Reservation" />
 	</session-factory>
 </hibernate-configuration>

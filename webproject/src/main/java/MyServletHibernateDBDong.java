@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dataModel.EmployeeDong;
+import dataModel.Reservation;
 import util.UtilDBDong;
 
 
@@ -27,17 +27,20 @@ public class MyServletHibernateDBDong extends HttpServlet {
 
 	   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	      response.setContentType("text/html");
-	      //response.getWriter().append("Hello World");
-	      // #1
-	      //UtilDB.createEmployees("user1", "11", "402-111-1111");
-	      //UtilDB.createEmployees("user2", "22", "402-222-2222");
+	      String filePath = "C:\\Users\\ghost\\OneDrive\\Documents\\git\\Spring22\\webproject\\src\\main\\webapp\\WEB-INF\\testData.txt";
+	      List<String> testList = util.UtilDBDong.readFile(filePath);
+	      String[] tokens;
 	      
-	      // #2
-	      //retrieveDisplayData(response.getWriter());
+	      for (String s : testList) {
+	    	  tokens = s.split(",");
+	    	  UtilDBDong.createReservation(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], Integer.parseInt(tokens[5]));
+	      }
+
+	      retrieveDisplayData(response.getWriter());
 	   }
 
 	   void retrieveDisplayData(PrintWriter out) {
-	      String title = "Database Result";
+	      String title = "Reservations List";
 	      String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + //
 	            "transitional//en\">\n"; //
 	      out.println(docType + //
@@ -46,17 +49,24 @@ public class MyServletHibernateDBDong extends HttpServlet {
 	            "<body bgcolor=\"#f0f0f0\">\n" + //
 	            "<h1 align=\"center\">" + title + "</h1>\n");
 	      out.println("<ul>");
-	      List<EmployeeDong> listEmployees = UtilDBDong.listEmployees();
-	      for (EmployeeDong employee : listEmployees) {
-	         System.out.println("[DBG] " + employee.getId() + ", " //
-	               + employee.getName() + ", " //
-	               + employee.getAge() + ", "
-	               + employee.getPhone());
-
-	         out.println("<li>" + employee.getId() + ", " //
-	               + employee.getName() + ", " //
-	               + employee.getAge() + ", " 
-	               + employee.getPhone() + "</li>");
+	      List<Reservation> listReservation = UtilDBDong.listReservations();
+	      listReservation = UtilDBDong.sortByTime(listReservation);
+	      for (Reservation reservation : listReservation) {
+	         System.out.println("[DBG] " + "(ID:" + reservation.getId() + ")" + ", " //
+	               + reservation.getFirstName() + ", " //
+	               + reservation.getLastName() + ", "
+	               + reservation.getPhone() + ", "
+	               + reservation.getDate() + ", "
+	               + reservation.getTimeOfArrival() + ", "
+	               + reservation.getNumberOfPeople());
+	         
+	         out.println("<li>" + "(ID:" + reservation.getId() + ")" + ", " //
+	        		 + reservation.getFirstName() + ", " //
+		             + reservation.getLastName() + ", "
+		             + reservation.getPhone() + ", "
+		             + reservation.getDate() + ", "
+		             + reservation.getTimeOfArrival() + ", "
+		             + reservation.getNumberOfPeople());
 	      }
 	      out.println("</ul>");
 	      out.println("</body></html>");
